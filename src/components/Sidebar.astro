@@ -1,0 +1,64 @@
+---
+import { getCollection } from 'astro:content';
+import Footer from './Footer.astro';
+
+const posts = await getCollection('blog');
+const sortedPosts = posts.sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
+
+// Get categories
+const categories = [
+	{ name: 'Homepage', path: '/' },
+	{ name: 'Strategy & Architecture', path: '/strategy-architecture' },
+	{ name: 'Test Automation', path: '/test-automation' },
+	{ name: 'CI/CD Pipelines', path: '/cicd-pipelines' },
+	{ name: 'Performance Engineering', path: '/performance-engineering' },
+	{ name: 'Exploratory Testing', path: '/exploratory-testing' }
+];
+
+const { currentPath = '' } = Astro.props;
+---
+<div id="sidebar">
+	<div class="inner">
+
+		<!-- Menu -->
+		<nav id="menu">
+			<header class="major">
+				<h2>Menu</h2>
+			</header>
+			<ul>
+				{categories.map((cat) => {
+					const isActive = currentPath === cat.path || (cat.path !== '/' && currentPath.includes(cat.path));
+					return (
+						<li>
+							<a href={cat.path} title={cat.name} class={isActive ? 'active' : ''}>
+								{cat.name}
+							</a>
+						</li>
+					);
+				})}
+			</ul>
+		</nav>
+
+		<!-- Section -->
+		<section>
+			<header class="major">
+				<h2>Recent Posts</h2>
+			</header>
+			<div class="mini-posts">
+				{sortedPosts.slice(0, 10).map((post) => (
+					<article>
+						<strong>
+							<a href={`/posts/${post.id}`} title={post.data.title}>
+								{post.data.title}
+							</a>
+						</strong>
+					</article>
+				))}
+			</div>
+		</section>
+
+		<!-- Footer -->
+		<Footer />
+
+	</div>
+</div>

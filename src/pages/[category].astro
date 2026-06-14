@@ -1,0 +1,82 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '../layouts/BaseLayout.astro';
+
+export async function getStaticPaths() {
+	const categories = [
+		{ slug: 'strategy-architecture', name: 'Strategy & Architecture', desc: 'Technical blueprints detailing QA engineering structure, shift-left design patterns, and contract-first integration pipelines.' },
+		{ slug: 'test-automation', name: 'Test Automation', desc: 'Blueprints for robust test automation runs, test isolation models, execution scheduling, and test framework strategies.' },
+		{ slug: 'cicd-pipelines', name: 'CI/CD Pipelines', desc: 'Integrating automated QA checks in continuous integration and deployment pipelines to detect bugs early.' },
+		{ slug: 'performance-engineering', name: 'Performance Engineering', desc: 'Load testing, concurrency profiling, latency budgets, and system resource optimization.' },
+		{ slug: 'exploratory-testing', name: 'Exploratory Testing', desc: 'Evaluating quality metrics, session-based exploratory testing logs, system behavior, and manual cognitive exploration.' }
+	];
+
+	return categories.map((cat) => ({
+		params: { category: cat.slug },
+		props: { cat },
+	}));
+}
+
+const { category } = Astro.params;
+const { cat } = Astro.props;
+
+const posts = await getCollection('blog');
+const filteredPosts = posts
+	.filter((post) => {
+		const postCatSlug = post.data.category.toLowerCase().replace(/\s+/g, '-').replace(/[^\w-]/g, '');
+		return postCatSlug === category;
+	})
+	.sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
+---
+<BaseLayout
+	title={`${cat.name} - QABlog.net`}
+	description={cat.desc}
+	schemaType="CollectionPage"
+>
+	<br />
+	<h2>{cat.name}</h2>
+	<p>{cat.desc}</p>
+	<hr />
+
+	<!-- Category Quick Pill Filters -->
+	<div class="category-filters">
+		<a href="/" class="filter-pill">All Topics</a>
+		<a href="/strategy-architecture" class={`filter-pill ${category === 'strategy-architecture' ? 'active' : ''}`}>Strategy & Architecture</a>
+		<a href="/test-automation" class={`filter-pill ${category === 'test-automation' ? 'active' : ''}`}>Test Automation</a>
+		<a href="/cicd-pipelines" class={`filter-pill ${category === 'cicd-pipelines' ? 'active' : ''}`}>CI/CD Pipelines</a>
+		<a href="/performance-engineering" class={`filter-pill ${category === 'performance-engineering' ? 'active' : ''}`}>Performance Engineering</a>
+		<a href="/exploratory-testing" class={`filter-pill ${category === 'exploratory-testing' ? 'active' : ''}`}>Exploratory Testing</a>
+	</div>
+
+	<div id="content-start"></div>
+
+	<!-- Filtered Posts List -->
+	<div class="posts-list">
+		{filteredPosts.length === 0 ? (
+			<p>No articles posted under this category yet. Stay tuned!</p>
+		) : (
+			filteredPosts.map((post) => {
+				const formattedDate = new Date(post.data.pubDate).toLocaleDateString('en-US', {
+					year: 'numeric',
+					month: 'long',
+					day: 'numeric'
+				});
+				return (
+					<div class="post-item">
+						<h2>
+							<a href={`/posts/${post.id}`} title={post.data.title}>
+								{post.data.title}
+							</a>
+						</h2>
+						<p>Posted on {formattedDate} in <a href={`/${category}`}>{post.data.category}</a></p>
+						<p>{post.data.description}</p>
+						<p align="right">
+							<a href={`/posts/${post.id}`} class="button">Read More</a>
+						</p>
+						<hr />
+					</div>
+				);
+			})
+		)}
+	</div>
+</BaseLayout>

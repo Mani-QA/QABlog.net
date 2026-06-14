@@ -1,0 +1,84 @@
+---
+---
+<header id="header">
+	<h1><a href="/" class="logo">QA Blog</a></h1>
+	<ul class="icons">
+		<li><a href="https://twitter.com" class="icon fa-twitter" aria-label="Twitter" target="_blank"><span class="label">Twitter</span></a></li>
+		<li><a href="https://facebook.com" class="icon fa-facebook" aria-label="Facebook" target="_blank"><span class="label">Facebook</span></a></li>
+	</ul>
+</header>
+<strong class="tagline">The Independent Blueprint for Software Quality Assurance, Automation &amp; Performance Engineering</strong>
+
+<style>
+	/* Desktop Header Overrides */
+	#header {
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+		padding: 1.5em 0 1em 0;
+	}
+	
+	#header h1 {
+		margin: 0;
+		line-height: 1;
+	}
+
+	#header .logo {
+		font-size: 1.4em !important;
+		font-weight: 800 !important;
+		font-family: "Roboto Slab", serif;
+		letter-spacing: -0.01em;
+		text-transform: none;
+	}
+
+	#header .icons {
+		margin: 0;
+	}
+
+	/* Mobile Viewport Style Tweaks */
+	@media screen and (max-width: 736px) {
+		#header {
+			padding: 1em 0 1.25em 0 !important;
+			display: flex !important;
+			flex-direction: row !important;
+			align-items: center !important;
+			justify-content: flex-start !important;
+			position: relative !important;
+			height: 5.5em;
+		}
+
+		#header h1 {
+			margin: 0 !important;
+			margin-left: 4.5em !important; /* Shift H1 from start of header container past toggle menu box */
+			display: flex !important;
+			align-items: center !important;
+			flex: none !important; /* Do not stretch */
+		}
+
+		#header .logo {
+			font-size: 2.2em !important; /* Bigger logo matching height of hamburger menu box */
+			font-weight: 800 !important;
+			margin-left: 0 !important; /* No extra margin on the link tag */
+			display: inline-block !important;
+			line-height: 1 !important;
+			vertical-align: middle;
+		}
+
+		#header .icons {
+			position: absolute !important;
+			right: 0 !important; /* Pushed to the far right end */
+			top: 50% !important;
+			transform: translateY(-50%) !important; /* Centered vertically */
+			height: auto !important;
+			line-height: inherit !important;
+			margin: 0 !important;
+			display: flex !important;
+			gap: 1.25em !important;
+			flex: none !important;
+		}
+		
+		#header .icons li {
+			padding: 0 !important;
+		}
+	}
+</style>

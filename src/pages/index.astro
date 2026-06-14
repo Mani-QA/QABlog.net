@@ -1,0 +1,366 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '../layouts/BaseLayout.astro';
+
+const posts = await getCollection('blog');
+
+// Find the target posts dynamically by their IDs (filename slugs)
+const heroPost = posts.find(p => p.id === 'quality-assurance-world-of-ai') || posts[0];
+const card1Post = posts.find(p => p.id === 'why-web-accessibility-matters') || posts[0];
+const card2Post = posts.find(p => p.id === 'web-performance-key-to-ux') || posts[0];
+const card3Post = posts.find(p => p.id === 'qaops-child-of-qa-devops') || posts[0];
+---
+<BaseLayout
+	title="QA Blog - The Software Quality Assurance Blueprint"
+	description="Expert deep dives into quality engineering, test automation frameworks, flaky test prevention, heuristic exploratory testing, and CI/CD quality gates."
+	schemaType="WebSite"
+>
+	<!-- Hero Section -->
+	{heroPost && (
+		<section class="hero-block">
+			<div class="hero-content">
+				<h1>{heroPost.data.title}</h1>
+				<p class="hero-subheading">{heroPost.data.category.toUpperCase()}</p>
+				<p class="hero-description">{heroPost.data.description}</p>
+				<div class="hero-action">
+					<a href={`/posts/${heroPost.id}`} class="btn-coral">LEARN MORE</a>
+				</div>
+			</div>
+			<div class="hero-image-wrapper">
+				<img src={heroPost.data.coverImage || "/images/qa_ai_hero.png"} alt={heroPost.data.title} class="rounded-image" />
+			</div>
+		</section>
+	)}
+
+
+	<!-- Featured Posts Section -->
+	<section class="featured-posts-section">
+		<div class="section-header">
+			<h2>Featured Posts</h2>
+			<div class="accent-line"></div>
+		</div>
+
+		<div class="cards-grid">
+			<!-- Card 1 -->
+			{card1Post && (
+				<div class="post-card">
+					<a href={`/posts/${card1Post.id}`} class="card-image-link">
+						<div class="card-image-wrapper">
+							<img src={card1Post.data.coverImage || "/images/accessibility_card.png"} alt={card1Post.data.title} class="rounded-image" />
+						</div>
+					</a>
+					<div class="card-body">
+						<h3>
+							<a href={`/posts/${card1Post.id}`} class="card-title-link">
+								{card1Post.data.title}
+							</a>
+						</h3>
+						<p>{card1Post.data.description}</p>
+						<div class="card-action">
+							<a href={`/posts/${card1Post.id}`} class="btn-coral text-sm">MORE</a>
+						</div>
+					</div>
+				</div>
+			)}
+
+			<!-- Card 2 -->
+			{card2Post && (
+				<div class="post-card">
+					<a href={`/posts/${card2Post.id}`} class="card-image-link">
+						<div class="card-image-wrapper">
+							<img src={card2Post.data.coverImage || "/images/performance_card.png"} alt={card2Post.data.title} class="rounded-image" />
+						</div>
+					</a>
+					<div class="card-body">
+						<h3>
+							<a href={`/posts/${card2Post.id}`} class="card-title-link">
+								{card2Post.data.title}
+							</a>
+						</h3>
+						<p>{card2Post.data.description}</p>
+						<div class="card-action">
+							<a href={`/posts/${card2Post.id}`} class="btn-coral text-sm">MORE</a>
+						</div>
+					</div>
+				</div>
+			)}
+
+			<!-- Card 3 -->
+			{card3Post && (
+				<div class="post-card">
+					<a href={`/posts/${card3Post.id}`} class="card-image-link">
+						<div class="card-image-wrapper">
+							<img src={card3Post.data.coverImage || "/images/qaops_card.png"} alt={card3Post.data.title} class="rounded-image" />
+						</div>
+					</a>
+					<div class="card-body">
+						<h3>
+							<a href={`/posts/${card3Post.id}`} class="card-title-link">
+								{card3Post.data.title}
+							</a>
+						</h3>
+						<p>{card3Post.data.description}</p>
+						<div class="card-action">
+							<a href={`/posts/${card3Post.id}`} class="btn-coral text-sm">MORE</a>
+						</div>
+					</div>
+				</div>
+			)}
+		</div>
+	</section>
+</BaseLayout>
+
+<style>
+	/* Background and Base styles for main content area */
+	:global(#main) {
+		background: #ffffff !important;
+	}
+
+	/* Dark Slate Gray for text and fonts */
+	h1, h2, h3, h4, p, span, a {
+		color: #3c4549; /* Dark Slate Gray */
+	}
+
+	/* Hero Block Layout */
+	.hero-block {
+		display: grid;
+		grid-template-columns: 1fr 1fr;
+		gap: 3.5em;
+		align-items: center;
+		padding: 1em 0 2.5em 0 !important;
+	}
+
+	.hero-content {
+		display: flex;
+		flex-direction: column;
+	}
+
+	.hero-content h1 {
+		font-family: "Roboto Slab", Georgia, serif;
+		font-size: 3.2em;
+		font-weight: 700;
+		line-height: 1.15;
+		margin: 0 0 0.5em 0;
+		letter-spacing: -0.01em;
+	}
+
+	.hero-subheading {
+		font-family: "Open Sans", sans-serif;
+		font-size: 0.85em;
+		font-weight: 600;
+		letter-spacing: 0.15em;
+		text-transform: uppercase;
+		color: #7f888f; /* muted gray for subheadings in editorial style */
+		margin: 0 0 1.5em 0;
+	}
+
+	.hero-description {
+		font-family: "Open Sans", sans-serif;
+		font-size: 0.95em;
+		line-height: 1.8;
+		margin: 0 0 2em 0;
+	}
+
+	.hero-image-wrapper {
+		width: 100%;
+		display: flex;
+		justify-content: center;
+	}
+
+	.hero-image-wrapper img {
+		width: 100%;
+		max-width: 100%;
+		height: auto;
+		object-fit: cover;
+		display: block;
+	}
+
+	/* Shared rounded image utility */
+	.rounded-image {
+		border-radius: 0.375em; /* slightly rounded corners */
+	}
+
+	/* Transparent Coral outline button */
+	.btn-coral {
+		display: inline-block;
+		background-color: transparent !important;
+		border: 1px solid #f56a6a !important; /* Thin coral border */
+		color: #f56a6a !important; /* Coral text */
+		font-family: "Open Sans", sans-serif;
+		font-size: 0.75em;
+		font-weight: 700;
+		letter-spacing: 0.15em;
+		text-transform: uppercase;
+		text-decoration: none;
+		text-align: center;
+		padding: 0.85em 2em;
+		border-radius: 0.375em;
+		transition: background-color 0.2s ease-in-out, border-color 0.2s ease-in-out;
+		cursor: pointer;
+		line-height: 1.5;
+	}
+
+	.btn-coral:hover {
+		background-color: rgba(245, 106, 106, 0.05) !important;
+		border-color: #f56a6a !important;
+	}
+
+	.btn-coral:active {
+		background-color: rgba(245, 106, 106, 0.15) !important;
+	}
+
+	/* Featured Posts Block */
+	.featured-posts-section {
+		padding: 2.5em 0 4em 0 !important;
+	}
+
+	.section-header {
+		margin-bottom: 2.5em;
+	}
+
+	.section-header h2 {
+		font-family: "Roboto Slab", Georgia, serif;
+		font-size: 1.8em;
+		font-weight: 700;
+		margin: 0 0 0.5em 0;
+		line-height: 1.2;
+	}
+
+	/* Short thick coral line under heading */
+	.accent-line {
+		width: 6em;
+		height: 3px;
+		background-color: #f56a6a; /* Soft coral */
+		margin: 0;
+	}
+
+	/* Three-column Card Grid */
+	.cards-grid {
+		display: grid;
+		grid-template-columns: repeat(3, 1fr);
+		gap: 2.5em;
+	}
+
+	/* Card inside each column */
+	.post-card {
+		display: flex;
+		flex-direction: column;
+		background: #ffffff;
+		border-radius: 0.375em;
+		overflow: hidden;
+		height: 100%;
+	}
+
+	.card-image-link {
+		border-bottom: none !important;
+		display: block;
+		overflow: hidden;
+		width: 100%;
+	}
+
+	.card-image-wrapper {
+		width: 100%;
+		overflow: hidden;
+		margin-bottom: 1.5em;
+	}
+
+	.card-image-wrapper img {
+		width: 100%;
+		height: 200px;
+		object-fit: cover;
+		display: block;
+		transition: transform 0.25s ease-in-out;
+	}
+
+	.card-image-link:hover img {
+		transform: scale(1.03);
+	}
+
+	.card-body {
+		display: flex;
+		flex-direction: column;
+		flex-grow: 1;
+	}
+
+	.card-body h3 {
+		font-family: "Roboto Slab", Georgia, serif;
+		font-size: 1.35em;
+		font-weight: 700;
+		margin: 0 0 0.8em 0;
+		line-height: 1.3;
+	}
+
+	.card-title-link {
+		border-bottom: none !important;
+		text-decoration: none;
+		color: inherit !important;
+		transition: color 0.15s ease-in-out;
+	}
+
+	.card-title-link:hover {
+		color: #f56a6a !important;
+	}
+
+	.card-body p {
+		font-family: "Open Sans", sans-serif;
+		font-size: 0.9em;
+		line-height: 1.6;
+		color: #7f888f; /* Muted dark slate gray for card text */
+		margin: 0 0 1.5em 0;
+		flex-grow: 1;
+	}
+
+	.card-action {
+		margin-top: auto;
+		display: flex;
+		justify-content: flex-start;
+	}
+
+	.text-sm {
+		font-size: 0.7em;
+		padding: 0.75em 1.5em;
+	}
+
+	/* Responsive Overrides: Stack all columns vertically on small screens */
+	@media screen and (max-width: 980px) {
+		.hero-block {
+			grid-template-columns: 1fr;
+			gap: 2.5em;
+			text-align: center;
+		}
+
+		.hero-content h1 {
+			font-size: 2.8em;
+		}
+
+		.hero-action {
+			display: flex;
+			justify-content: center;
+		}
+
+		.cards-grid {
+			grid-template-columns: repeat(2, 1fr);
+			gap: 2em;
+		}
+	}
+
+	@media screen and (max-width: 736px) {
+		.hero-block {
+			padding: 2em 0;
+			gap: 2em;
+		}
+
+		.hero-content h1 {
+			font-size: 2.2em;
+		}
+
+		.cards-grid {
+			grid-template-columns: 1fr;
+			gap: 2.5em;
+		}
+
+		.card-image-wrapper img {
+			height: 180px;
+		}
+	}
+</style>

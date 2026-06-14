@@ -1,0 +1,14 @@
+{
+	"$schema": "node_modules/wrangler/config-schema.json",
+	"name": "qablog-net",
+	"compatibility_date": "2026-06-14",
+	"assets": {
+		"directory": "./dist/client"
+	},
+	"kv_namespaces": [
+		{
+			"binding": "SESSION",
+			"id": "3a310e33ad59476ab238b4e423156b6c"
+		}
+	]
+}
